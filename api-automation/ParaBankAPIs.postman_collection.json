@@ -1,0 +1,989 @@
+{
+	"info": {
+		"_postman_id": "b67d40e8-da9e-4566-9088-58c3dfc27052",
+		"name": "ParaBankAPIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6001397",
+		"_collection_link": "https://psiteam.postman.co/workspace/Team-Workspace~653ace7c-330e-44e3-8c97-26a36d220581/collection/6001397-b67d40e8-da9e-4566-9088-58c3dfc27052?action=share&source=collection_link&creator=6001397"
+	},
+	"item": [
+		{
+			"name": "Positive Scenarios",
+			"item": [
+				{
+					"name": "Fetch user account details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Accounts are valid\", function () {\r",
+									"    for (var item in pm.response.json()) {\r",
+									"        pm.sendRequest({\r",
+									"            url: `${pm.variables.get(\"baseURL\")}/parabank/services_proxy/bank/accounts/${item.id}`,\r",
+									"            method: \"GET\",\r",
+									"            auth: {\r",
+									"                type: \"basic\",\r",
+									"                basic: {\r",
+									"                    username: pm.variables.get(\"username\"),\r",
+									"                    password: pm.variables.get(\"password\")\r",
+									"                }\r",
+									"            }\r",
+									"        }).then(res => {\r",
+									"            pm.expect(res.code).to.eql(200)\r",
+									"        }).catch(err => {\r",
+									"            console.error(err);\r",
+									"        });\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/parabank/services_proxy/bank/customers/{{customerId}}/accounts",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"parabank",
+								"services_proxy",
+								"bank",
+								"customers",
+								"{{customerId}}",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Customer Account Info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Account list is not empty\", function () {\r",
+									"    pm.expect(pm.response.json().length).to.have.greaterThan(0)\r",
+									"});\r",
+									"\r",
+									"pm.test('Schema is valid', function () {\r",
+									"    const schema = {\r",
+									"        \"$schema\": \"http://json-schema.org/draft-07/schema#\",\r",
+									"        \"title\": \"Generated schema for Root\",\r",
+									"        \"type\": \"array\",\r",
+									"        \"items\": {\r",
+									"            \"type\": \"object\",\r",
+									"            \"properties\": {\r",
+									"                \"id\": {\r",
+									"                    \"type\": \"number\"\r",
+									"                },\r",
+									"                \"customerId\": {\r",
+									"                    \"type\": \"number\"\r",
+									"                },\r",
+									"                \"type\": {\r",
+									"                    \"type\": \"string\"\r",
+									"                },\r",
+									"                \"balance\": {\r",
+									"                    \"type\": \"number\"\r",
+									"                }\r",
+									"            },\r",
+									"            \"required\": [\r",
+									"                \"id\",\r",
+									"                \"customerId\",\r",
+									"                \"type\",\r",
+									"                \"balance\"\r",
+									"            ]\r",
+									"        }\r",
+									"    }\r",
+									"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Accounts are valid\", function () {\r",
+									"    for (var item in pm.response.json()) {\r",
+									"        pm.sendRequest({\r",
+									"            url: `${pm.variables.get(\"baseURL\")}/parabank/services_proxy/bank/accounts/${item.id}`,\r",
+									"            method: \"GET\",\r",
+									"            auth: {\r",
+									"                type: \"basic\",\r",
+									"                basic: {\r",
+									"                    username: pm.variables.get(\"username\"),\r",
+									"                    password: pm.variables.get(\"password\")\r",
+									"                }\r",
+									"            }\r",
+									"        }).then(res => {\r",
+									"            pm.expect(res.code).to.eql(200)\r",
+									"        }).catch(err => {\r",
+									"            console.error(err);\r",
+									"        });\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/parabank/services_proxy/bank/customers/{{customerId}}/accounts",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"parabank",
+								"services_proxy",
+								"bank",
+								"customers",
+								"{{customerId}}",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Perform a fund transfer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message validation\", function () {\r",
+									"    const message = pm.response.text();\r",
+									"    const amount = pm.request.url.query.toObject().amount\r",
+									"    const fromAccountId = pm.request.url.query.toObject().fromAccountId\r",
+									"    const toAccountId = pm.request.url.query.toObject().toAccountId\r",
+									"   pm.expect(message).to.be.eql(\"Successfully transferred $\" +`${amount} from account #${fromAccountId} to account #${toAccountId}`)\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/parabank/services_proxy/bank/transfer?fromAccountId={{fromAccountId}}&toAccountId={{toAccountId}}&amount=1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"parabank",
+								"services_proxy",
+								"bank",
+								"transfer"
+							],
+							"query": [
+								{
+									"key": "fromAccountId",
+									"value": "{{fromAccountId}}"
+								},
+								{
+									"key": "toAccountId",
+									"value": "{{toAccountId}}"
+								},
+								{
+									"key": "amount",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate transaction history",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"// Store transaction count\r",
+									"pm.sendRequest({\r",
+									"    url: `${pm.variables.get(\"baseURL\")}/parabank/services_proxy/bank/accounts/${pm.variables.get(\"toAccountId\")}/transactions`,\r",
+									"    method: \"GET\",\r",
+									"    auth: {\r",
+									"        type: \"basic\",\r",
+									"        basic: {\r",
+									"            username: pm.variables.get(\"username\"),\r",
+									"            password: pm.variables.get(\"password\")\r",
+									"        }\r",
+									"    }\r",
+									"}).then(res => {\r",
+									"    pm.variables.set(\"totalTransactionCount\", JSON.parse(res.text()).length)\r",
+									"\r",
+									"    // Perform transaction\r",
+									"    pm.sendRequest({\r",
+									"        url: `${pm.variables.get(\"baseURL\")}/parabank/services_proxy/bank/transfer?fromAccountId=${pm.variables.get(\"fromAccountId\")}&toAccountId=${pm.variables.get(\"toAccountId\")}&amount=1`,\r",
+									"        method: \"POST\",\r",
+									"        auth: {\r",
+									"            type: \"basic\",\r",
+									"            basic: {\r",
+									"                username: pm.variables.get(\"username\"),\r",
+									"                password: pm.variables.get(\"password\")\r",
+									"            }\r",
+									"        }\r",
+									"    }).then(res => {\r",
+									"        pm.expect(res.code).to.eql(200);\r",
+									"    }).catch(err => {\r",
+									"        console.error(err);\r",
+									"    });\r",
+									"}).catch(err => {\r",
+									"    console.error(err);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validate new transactio count\", function () {\r",
+									"    const previousTransactionCount = pm.variables.get(\"totalTransactionCount\");\r",
+									"    pm.expect(pm.response.json().length).to.eql(previousTransactionCount+1)\r",
+									"});\r",
+									"pm.test(\"Validate new transaction\", function () {\r",
+									"   const  newTransaction = pm.response.json()[pm.response.json().length-1];\r",
+									"   pm.expect(newTransaction.accountId).to.be.eql(Number(pm.variables.get(\"toAccountId\")));\r",
+									"   pm.expect(newTransaction.amount).to.be.eql(1.00);\r",
+									"   pm.expect(newTransaction.type).to.be.eql(\"Credit\");\r",
+									"   pm.expect(newTransaction.description).to.be.eql(\"Funds Transfer Received\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/parabank/services_proxy/bank/accounts/{{toAccountId}}/transactions",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"parabank",
+								"services_proxy",
+								"bank",
+								"accounts",
+								"{{toAccountId}}",
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Open a New Saving Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate response includes account ID\", function () {\r",
+									"    pm.expect(pm.response.json()).to.haveOwnProperty(\"id\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate account type\", function () {\r",
+									"    pm.expect(pm.response.json().type).to.eql(\"SAVINGS\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Created account is valid\", function () {\r",
+									"    pm.sendRequest({\r",
+									"        url: `${pm.variables.get(\"baseURL\")}/parabank/services_proxy/bank/accounts/${pm.response.json().id}`,\r",
+									"        method: \"GET\",\r",
+									"        auth: {\r",
+									"            type: \"basic\",\r",
+									"            basic: {\r",
+									"                username: pm.variables.get(\"username\"),\r",
+									"                password: pm.variables.get(\"password\")\r",
+									"            }\r",
+									"        }\r",
+									"    }).then(res => {\r",
+									"        pm.expect(res.code).to.eql(200)\r",
+									"    }).catch(err => {\r",
+									"        console.error(err);\r",
+									"    });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/parabank/services_proxy/bank/createAccount?customerId={{customerId}}&newAccountType=1&fromAccountId={{fromAccountId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"parabank",
+								"services_proxy",
+								"bank",
+								"createAccount"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": "{{customerId}}"
+								},
+								{
+									"key": "newAccountType",
+									"value": "1"
+								},
+								{
+									"key": "fromAccountId",
+									"value": "{{fromAccountId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Open a New Checking Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate response includes account ID\", function () {\r",
+									"    pm.expect(pm.response.json()).to.haveOwnProperty(\"id\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validate account type\", function () {\r",
+									"    pm.expect(pm.response.json().type).to.eql(\"CHECKING\")\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Created account is valid\", function () {\r",
+									"    for (var item in pm.response.json()) {\r",
+									"        pm.sendRequest({\r",
+									"            url: `${pm.variables.get(\"baseURL\")}/parabank/services_proxy/bank/accounts/${item.id}`,\r",
+									"            method: \"GET\",\r",
+									"            auth: {\r",
+									"                type: \"basic\",\r",
+									"                basic: {\r",
+									"                    username: pm.variables.get(\"username\"),\r",
+									"                    password: pm.variables.get(\"password\")\r",
+									"                }\r",
+									"            }\r",
+									"        }).then(res => {\r",
+									"            pm.expect(res.code).to.eql(200)\r",
+									"        }).catch(err => {\r",
+									"            console.error(err);\r",
+									"        });\r",
+									"    }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/parabank/services_proxy/bank/createAccount?customerId={{customerId}}&newAccountType=0&fromAccountId={{fromAccountId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"parabank",
+								"services_proxy",
+								"bank",
+								"createAccount"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": "{{customerId}}"
+								},
+								{
+									"key": "newAccountType",
+									"value": "0"
+								},
+								{
+									"key": "fromAccountId",
+									"value": "{{fromAccountId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Negative Scenarios",
+			"item": [
+				{
+					"name": "Perform a fund transfer via invalid account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/parabank/services_proxy/bank/transfer?fromAccountId={{fromAccountId}}&toAccountId={{invalid_toAccountId}}&amount=1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"parabank",
+								"services_proxy",
+								"bank",
+								"transfer"
+							],
+							"query": [
+								{
+									"key": "fromAccountId",
+									"value": "{{fromAccountId}}"
+								},
+								{
+									"key": "toAccountId",
+									"value": "{{invalid_toAccountId}}"
+								},
+								{
+									"key": "amount",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Perform a fund transfer with negative amount",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/parabank/services_proxy/bank/transfer?fromAccountId={{fromAccountId}}&toAccountId={{toAccountId}}&amount=-1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"parabank",
+								"services_proxy",
+								"bank",
+								"transfer"
+							],
+							"query": [
+								{
+									"key": "fromAccountId",
+									"value": "{{fromAccountId}}"
+								},
+								{
+									"key": "toAccountId",
+									"value": "{{toAccountId}}"
+								},
+								{
+									"key": "amount",
+									"value": "-1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Perform a fund transfer with insufficient amount",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/parabank/services_proxy/bank/transfer?fromAccountId={{fromAccountId}}&toAccountId={{toAccountId}}&amount=10000000000000000000000000",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"parabank",
+								"services_proxy",
+								"bank",
+								"transfer"
+							],
+							"query": [
+								{
+									"key": "fromAccountId",
+									"value": "{{fromAccountId}}"
+								},
+								{
+									"key": "toAccountId",
+									"value": "{{toAccountId}}"
+								},
+								{
+									"key": "amount",
+									"value": "10000000000000000000000000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Open Invalid Account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/parabank/services_proxy/bank/createAccount?customerId={{customerId}}&newAccountType=-1&fromAccountId={{fromAccountId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"parabank",
+								"services_proxy",
+								"bank",
+								"createAccount"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": "{{customerId}}"
+								},
+								{
+									"key": "newAccountType",
+									"value": "-1"
+								},
+								{
+									"key": "fromAccountId",
+									"value": "{{fromAccountId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch invalid user account details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/parabank/services_proxy/bank/customers/{{invalid_customerId}}/accounts",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"parabank",
+								"services_proxy",
+								"bank",
+								"customers",
+								"{{invalid_customerId}}",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "username",
+			"value": "john",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "demo",
+			"type": "string"
+		},
+		{
+			"key": "baseURL",
+			"value": "https://parabank.parasoft.com",
+			"type": "string"
+		},
+		{
+			"key": "customerId",
+			"value": "12212",
+			"type": "string"
+		},
+		{
+			"key": "fromAccountId",
+			"value": "13344",
+			"type": "string"
+		},
+		{
+			"key": "toAccountId",
+			"value": "13455",
+			"type": "string"
+		},
+		{
+			"key": "invalid_toAccountId",
+			"value": "123",
+			"type": "string"
+		},
+		{
+			"key": "invalid_customerId",
+			"value": "123",
+			"type": "string"
+		}
+	]
+}
